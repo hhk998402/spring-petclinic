@@ -40,5 +40,10 @@ pipeline {
                 }
             }
         }
+        stage('Run Application') {
+            steps {
+                sh 'mvn clean package install'
+            }
+        }
     }
 }
