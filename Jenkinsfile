@@ -1,6 +1,9 @@
 pipeline {
     agent {
-        docker { image 'maven' }
+        docker { 
+            image 'maven',
+            args '--net=host'
+        }
     }
     stages {
         stage('Clone repository') {
