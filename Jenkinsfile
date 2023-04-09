@@ -21,5 +21,24 @@ pipeline {
                 sh 'mvn test'
             }
         }
+        stage('SonarQube') {
+            steps {
+                script {
+                    def sonarProj = 'spring-petclinic'
+                    def sonarURL = 'http://sonarqube:9000'
+                    def sonarToken = 'sqa_6b2060cf4106ba48f8025a25276c45aa450757fb'
+
+                    // Check if SonarQube project exists
+                    def sonarProjectExists = sh(returnStdout: true, script: "curl -s -u ${sonarToken}: ${sonarURL}/api/projects/search | jq -r '.components[] | select(.key == \"${sonarProj}\")'")
+                    if (sonarProjectExists) {
+                        // Submit test report for analysis
+                        sh "mvn sonar:sonar -Dsonar.host.url=${sonarURL} -Dsonar.login=${sonarToken}"
+                    } else {
+                        // Create new SonarQube project
+                        sh "mvn sonar:sonar -Dsonar.host.url=${sonarURL} -Dsonar.login=${sonarToken} -Dsonar.projectKey=${sonarProj} -Dsonar.projectName=${sonarProj}"
+                    }
+                }
+            }
+        }
     }
 }
