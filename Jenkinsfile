@@ -40,9 +40,11 @@ pipeline {
                 }
             }
         }
-        stage('Run Application') {
+        stage('Run using Docker') {
+            agent any
             steps {
-                sh 'mvn clean package install'
+                sh 'docker build -t spring-petclinic .'
+                sh 'docker run -p 8080:8080 -d spring-petclinic'
             }
         }
     }
