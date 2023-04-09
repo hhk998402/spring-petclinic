@@ -26,7 +26,7 @@ pipeline {
                 script {
                     def sonarProj = 'spring-petclinic'
                     def sonarURL = 'http://sonarqube:9000'
-                    def sonarToken = 'sqa_6b2060cf4106ba48f8025a25276c45aa450757fb'
+                    def sonarToken = 'squ_46203e10177e42e17caf75399097b9febf141c7b'
 
                     // Check if SonarQube project exists
                     def sonarProjectExists = sh(returnStdout: true, script: "curl -s -u ${sonarToken}: ${sonarURL}/api/projects/search | jq -r '.components[] | select(.key == \"${sonarProj}\")'")
