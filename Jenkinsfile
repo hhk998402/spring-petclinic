@@ -2,7 +2,7 @@ pipeline {
     agent {
         docker { 
             image 'maven'
-            args '--net=host'
+            args '--network devops-assignment-1'
         }
     }
     stages {
