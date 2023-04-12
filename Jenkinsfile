@@ -23,19 +23,21 @@ pipeline {
         }
         stage('SonarQube') {
             steps {
-                script {
-                    def sonarProj = 'spring-petclinic'
-                    def sonarURL = 'http://sonarqube:9000'
-                    def sonarToken = 'squ_46203e10177e42e17caf75399097b9febf141c7b'
+                withCredentials([usernamePassword(credentialsId: 'sonarqubeToken', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]){
+                    script {
+                        def sonarProj = 'spring-petclinic'
+                        def sonarURL = 'http://sonarqube:9000'
+                        def sonarToken = "${PASSWORD}"
 
-                    // Check if SonarQube project exists
-                    def sonarProjectExists = sh(returnStdout: true, script: "curl -s -u ${sonarToken}: ${sonarURL}/api/projects/search | jq -r '.components[] | select(.key == \"${sonarProj}\")'")
-                    if (sonarProjectExists) {
-                        // Submit test report for analysis
-                        sh "mvn sonar:sonar -Dsonar.host.url=${sonarURL} -Dsonar.login=${sonarToken}"
-                    } else {
-                        // Create new SonarQube project
-                        sh "mvn sonar:sonar -Dsonar.host.url=${sonarURL} -Dsonar.login=${sonarToken} -Dsonar.projectKey=${sonarProj} -Dsonar.projectName=${sonarProj}"
+                        // Check if SonarQube project exists
+                        def sonarProjectExists = sh(returnStdout: true, script: "curl -s -u ${sonarToken}: ${sonarURL}/api/projects/search | jq -r '.components[] | select(.key == \"${sonarProj}\")'")
+                        if (sonarProjectExists) {
+                            // Submit test report for analysis
+                            sh "mvn sonar:sonar -Dsonar.host.url=${sonarURL} -Dsonar.login=${sonarToken}"
+                        } else {
+                            // Create new SonarQube project
+                            sh "mvn sonar:sonar -Dsonar.host.url=${sonarURL} -Dsonar.login=${sonarToken} -Dsonar.projectKey=${sonarProj} -Dsonar.projectName=${sonarProj}"
+                        }
                     }
                 }
             }
