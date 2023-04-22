@@ -2,7 +2,7 @@ pipeline {
     agent {
         docker { 
             image 'hemanthhk/maven-with-jq:latest'
-            args '--network assignment-1_devops-assignment-1'
+            args '--network assignment-2_devops-assignment-1'
         }
     }
     stages {
