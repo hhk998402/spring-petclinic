@@ -6,4 +6,4 @@
    - name: Copy the package Maven Project
      shell: docker cp ./target/. webserver:/app/
    - name: Run the JAR
-     shell: docker exec webserver java -jar target/petclinic-3.0.0-SNAPSHOT.jar
+     shell: docker exec --workdir /app webserver java -jar target/petclinic-3.0.0-SNAPSHOT.jar
