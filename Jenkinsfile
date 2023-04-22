@@ -42,7 +42,7 @@ pipeline {
                 }
             }
         }
-        stage('Run using Docker') {
+        stage('Run using Ansible') {
             agent any
             steps {
                 sh 'docker build -t spring-petclinic .'
