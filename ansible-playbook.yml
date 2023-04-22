@@ -1,0 +1,8 @@
+---
+- hosts: webserver
+  connection: local
+  tasks:
+   - name: Copy the package Maven Project
+     shell: docker cp ./target/. webserver:/app/
+   - name: Run the JAR
+     shell: docker exec webserver java -jar target/petclinic-3.0.0-SNAPSHOT.jar
