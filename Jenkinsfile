@@ -45,8 +45,7 @@ pipeline {
         stage('Run using Docker') {
             agent any
             steps {
-                sh 'docker build -t spring-petclinic .'
-                sh 'docker run -p 8080:8080 -d spring-petclinic'
+                sh 'ansible-playbook --inventory dev.inv ansible-playbook.yml"
             }
         }
     }
